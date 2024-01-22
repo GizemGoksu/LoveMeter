@@ -1,0 +1,4 @@
+enum ImagePaths{
+  heart,
+  background
+}
