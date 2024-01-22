@@ -5,7 +5,6 @@ import '../../../product/calculator/love_meter_calculator.dart';
 
 class MainViewModel extends GetxController {
   RxInt percentage = 0.obs;
-  RxBool isTextVisible = false.obs;
   late TextEditingController firstNameController;
   late TextEditingController secondNameController;
   late LoveMeterCalculator loveMeterCalculator;
@@ -28,8 +27,9 @@ class MainViewModel extends GetxController {
   void calculateLove() {
     int newPerc = loveMeterCalculator.calculatePercentage(firstNameController.text, secondNameController.text);
     if (percentage.value != 0) {
-      // if user wants to try different names, then we need to reset the percentage to 0
+      // if user wants to try different names, then we need to reset the percentage to 0.
       percentage.value = 0;
+      // We need to wait for 2 seconds to show the animation for percentage going back to 0.
       Future.delayed(const Duration(seconds: 2), () => percentage.value = newPerc);
     } else {
       percentage.value = newPerc;

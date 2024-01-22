@@ -1,5 +1,4 @@
 class LoveMeterCalculator {
-
   int calculatePercentage(String firstName, String secondName) {
     List<int> numbers = calculateLetterRepeating(firstName, secondName);
     while (numbers.length > 2) {
@@ -12,20 +11,18 @@ class LoveMeterCalculator {
   List<int> calculateLetterRepeating(String firstName, String secondName) {
     int i = 0;
     List<int> repeatingTimes = [];
-    String names = firstName + secondName;
+    String names = firstName.trim() + secondName.trim();
     List<String> letters = names.split("");
-    int letterNumber = letters.length;
-    while (letterNumber > 0) {
+    while (letters.isNotEmpty) {
       int repeat = 0;
       String letter = letters.first;
-      for (i = 0; i < letterNumber; i++) {
+      for (i = 0; i < letters.length; i++) {
         if (letters[i] == letter) {
           repeat++;
         }
       }
       repeatingTimes.add(repeat);
-      letters.removeWhere((letterItem) => letterItem == letter);
-      letterNumber = letters.length;
+      letters.removeWhere((letterElement) => letterElement == letter);
     }
     return repeatingTimes;
   }
@@ -34,15 +31,13 @@ class LoveMeterCalculator {
     int i = 0;
     List<int> newNumbers = [];
     int length = numbers.length;
-    int loopTime = (length % 2 == 1
-        ? (numbers.length + 1) / 2
-        : numbers.length / 2) as int;
+    int loopTime = (length / 2).round();
     for (i = 0; i < loopTime; i++) {
       int addition = 0;
-      if (i == length - i - 1) {
-        addition = numbers[i];
-      } else {
+      if (i != length - i - 1) {
         addition = numbers[i] + numbers[length - i - 1];
+      } else {
+        addition = numbers[i];
       }
       newNumbers.add(addition);
     }

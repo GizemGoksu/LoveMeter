@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../constant/color/color_util.dart';
+import '../../constant/color/colors/color_util.dart';
+import '../../constant/color/gradients/color_gradient_util.dart';
 
 class AppButton extends StatelessWidget {
   final Function() onTap;
@@ -15,15 +15,11 @@ class AppButton extends StatelessWidget {
         height: 50,
         width:  MediaQuery.of(context).size.width < 432 
                     ? MediaQuery.of(context).size.width * 0.67
-                    : 291, //291,
+                    : 291,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(32),
             border: Border.all(color: ColorUtil.white.withOpacity(0.25), width: 3),
-            gradient: const LinearGradient(
-              colors: [
-                ColorUtil.transparent,
-                 ColorUtil.viola],
-              ),
+            gradient: ColorGradientUtil.buttonColor,
         ),
         child: Center(
             child: Text(

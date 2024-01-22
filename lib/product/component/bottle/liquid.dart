@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import '../../constant/color/color_util.dart';
+import 'package:love_meter/product/constant/color/gradients/color_gradient_util.dart';
+import '../../constant/color/colors/color_util.dart';
 
 class Liquid extends StatefulWidget {
   int percentage;
@@ -12,17 +13,19 @@ class Liquid extends StatefulWidget {
 }
 
 class _LiquidState extends State<Liquid> {
+  bool isTextViSible = false;
+
   double get height {
     if (widget.percentage == 0) {
-      isTextViSible = false;
+      setState(() {
+        isTextViSible = false;
+      });
       return 0;
     }
     return 62 + (232 / 100 * widget.percentage);
-    // 62 --> height of circle at the above
-    // 232 --> height of rectangle
+    // 62 --> height of the clipped circle at the above
+    // 232 --> height of the rectangle
   }
-
-  bool isTextViSible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,6 @@ class _LiquidState extends State<Liquid> {
       },
       child: Stack(
         alignment: Alignment.bottomCenter,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
         children: [
           rectangle(),
           circle(),
@@ -56,14 +58,13 @@ class _LiquidState extends State<Liquid> {
         width: 65,
         decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
-                colors: [ColorUtil.eggplant, ColorUtil.strikeMaster])),
+            gradient: ColorGradientUtil.liquidColor),
         child: Center(
           child: Visibility(
             visible: isTextViSible,
             child: Text(
               "%${widget.percentage.toString()}",
-              style: const TextStyle(color: Colors.white, fontSize: 15),
+              style: const TextStyle(color: ColorUtil.white, fontSize: 16),
             ),
           ),
         ));
@@ -82,48 +83,8 @@ class _LiquidState extends State<Liquid> {
                   offset: const Offset(0, -1),
                   blurRadius: 2)
             ],
-            gradient: const LinearGradient(
-                colors: [ColorUtil.eggplant, ColorUtil.strikeMaster])),
+            gradient: ColorGradientUtil.liquidColor),
       ),
     );
   }
-}
-
-class Clipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.quadraticBezierTo(
-      size.width / 2,
-      5,
-      size.width,
-      0,
-    );
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => false;
-}
-
-class Deneme extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(15, 0);
-    path.lineTo(15, 100);
-    path.quadraticBezierTo(15, 100, 0, 127.5);
-    path.quadraticBezierTo(0, 127.5, 32.5, 160);
-    path.quadraticBezierTo(32.5, 160, 65, 127.5);
-    path.quadraticBezierTo(65, 127.5, 50, 100);
-    path.lineTo(50, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper oldClipper) => false;
 }
